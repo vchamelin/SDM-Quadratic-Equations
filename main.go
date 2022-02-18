@@ -3,14 +3,25 @@ package main
 import (
 	"fmt"
 	"math"
+	"os"
+	"strconv"
 )
 
-func check(valArr []float64) bool {
-	var tOrF bool = false
-	if valArr[0] > 0 {
-		tOrF = true
+func addNum(valArr *[]float64) bool {
+	var num string
+	nameArr := []string{"A", "B", "C"}
+
+	for i := 0; i < len(nameArr); i++ {
+		fmt.Printf("%s: ", nameArr[i])
+		fmt.Fscan(os.Stdin, &num)
+		input, err := strconv.ParseFloat(num, 64)
+		if err != nil || i == 0 && input == 0 {
+			fmt.Print("Error. Expected a valid real number, got invalid instead")
+			return false
+		}
+		*valArr = append(*valArr, input)
 	}
-	return tOrF
+	return true
 }
 
 func printAnswer(valArr, answerMas []float64, discrim float64) {
@@ -41,19 +52,10 @@ func calculationResult(valArr []float64, discrim *float64) []float64 {
 }
 
 func main() {
-	var numA, numB, numC, discrim float64
+	var discrim float64
 	var valArr []float64
 
-	fmt.Print("A: ")
-	fmt.Scan(&numA)
-	fmt.Print("B: ")
-	fmt.Scan(&numB)
-	fmt.Print("C: ")
-	fmt.Scan(&numC)
-
-	valArr = append(valArr, numA, numB, numC)
-
-	if check(valArr) {
+	if addNum(&valArr) {
 		answerMas := calculationResult(valArr, &discrim)
 		printAnswer(valArr, answerMas, discrim)
 	}
