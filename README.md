@@ -1,7 +1,7 @@
 # SDM-Quadratic-Equations
 Software Development Methods."Console application for solving quadratic equations".
 
-# equation-solver
+# Equation-solver
 This simple CLI application can be used to solve quadratic equations
 
 ```
