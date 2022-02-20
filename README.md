@@ -54,3 +54,4 @@ $ sample-appr test.txt
 
 ## Test revert commit
 
+[6957363a8f293599895cfa411465586430f34202](https://github.com/vchamelin/SDM-Quadratic-Equations/commit/fe1ab41d74ccff874b13d49bb21f0f92bcd31fdf)
