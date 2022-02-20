@@ -5,9 +5,42 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"strings"
 )
 
-func addNum(valArr *[]float64) bool {
+func inputNumFile(fileName string, valArr *[]float64) {
+	file, err := os.ReadFile(fileName)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	strs := strings.Fields(string(file))
+
+	if len(strs) != 3 {
+		fmt.Print("Error: Invalid file format, expected 3 values\n")
+		os.Exit(1)
+	}
+
+	for indx, val := range strs {
+		num, err := strconv.ParseFloat(val, 64)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %s\n", err)
+			os.Exit(1)
+		}
+
+		if indx == 0 && num == 0 {
+			fmt.Print("Error. a cannot be 0\n")
+			os.Exit(1)
+		}
+
+		if err == nil {
+			*valArr = append(*valArr, num)
+		}
+	}
+}
+
+func inputNumConsole(valArr *[]float64) {
 	var num string
 	nameArr := []string{"A", "B", "C"}
 
@@ -17,15 +50,14 @@ func addNum(valArr *[]float64) bool {
 		input, err := strconv.ParseFloat(num, 64)
 		if err != nil || i == 0 && input == 0 {
 			fmt.Print("Error. Expected a valid real number, got invalid instead")
-			return false
+			os.Exit(0)
 		}
 		*valArr = append(*valArr, input)
 	}
-	return true
 }
 
 func printAnswer(valArr, answerMas []float64, discrim float64) {
-	fmt.Printf("Equation is: (%g) x^2 + (%g) x + (%g) = %g \n", valArr[0], valArr[1], valArr[2], discrim)
+	fmt.Printf("Equation is: (%g) x^2 + (%g) x + (%g) = 0 \n", valArr[0], valArr[1], valArr[2])
 	fmt.Printf("There are %d roots \n", len(answerMas))
 
 	for idx, val := range answerMas {
@@ -54,10 +86,18 @@ func calculationResult(valArr []float64, discrim *float64) []float64 {
 func main() {
 	var discrim float64
 	var valArr []float64
+	var fileName string
 
-	if addNum(&valArr) {
-		answerMas := calculationResult(valArr, &discrim)
-		printAnswer(valArr, answerMas, discrim)
+	if len(os.Args) > 1 {
+		fileName = os.Args[1]
 	}
 
+	if fileName != "" {
+		inputNumFile(fileName, &valArr)
+	} else {
+		inputNumConsole(&valArr)
+	}
+
+	answerMas := calculationResult(valArr, &discrim)
+	printAnswer(valArr, answerMas, discrim)
 }
