@@ -68,7 +68,7 @@ func printAnswer(valArr, answerMas []float64, discrim float64) {
 func calculationResult(valArr []float64, discrim *float64) []float64 {
 	var answerMas []float64
 
-	if *discrim = (valArr[1]*valArr[1] - 4*valArr[0]*valArr[2]); *discrim >= 0 {
+	if *discrim = (valArr[1]*valArr[1] - 4*valArr[0]*valArr[2]); *discrim > 0 {
 		firstX := (-valArr[1] + math.Sqrt(*discrim)) / (2 * valArr[0])
 		secondX := (-valArr[1] - math.Sqrt(*discrim)) / (2 * valArr[0])
 		if firstX == secondX {
